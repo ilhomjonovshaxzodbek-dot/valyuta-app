@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Valyuta — real vaqtda kurslar</title>
+<link rel="stylesheet" href="style.css">
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#121729">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Valyuta">
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- Desktop sidebar (kompyuter uchun) -->
+  <div class="sidebar-nav">
+    <div class="sidebar-brand">
+      <div class="brand-mark">💱</div>
+      <div class="brand-text">
+        <div class="title">Valyuta</div>
+        <div class="subtitle" id="headerDateSide">Yuklanmoqda...</div>
+      </div>
+    </div>
+    <button class="sidebar-btn active" data-tab="asosiy">
+      <span class="nav-icon">🏠</span> Asosiy
+    </button>
+    <button class="sidebar-btn" data-tab="tarix">
+      <span class="nav-icon">🕓</span> Tarix
+    </button>
+    <button class="sidebar-btn" data-tab="koproq">
+      <span class="nav-icon">🧩</span> Ko'proq
+    </button>
+  </div>
+
+<div class="app-shell">
+
+  <!-- Header (mobil uchun) -->
+  <div class="app-header">
+    <div class="brand">
+      <div class="brand-mark">💱</div>
+      <div class="brand-text">
+        <div class="title">Valyuta</div>
+        <div class="subtitle" id="headerDate">Yuklanmoqda...</div>
+      </div>
+    </div>
+    <button class="header-icon-btn" id="editRowsBtn" title="Tahrirlash">✎</button>
+  </div>
+
+  <!-- ============ TAB 1: ASOSIY ============ -->
+  <div class="tab-panel active" id="tab-asosiy">
+    <div class="rows-header">
+      <h2>Valyuta kalkulyatori</h2>
+      <button class="add-row-btn" id="addRowBtn">+</button>
+    </div>
+
+    <div class="currency-rows" id="currencyRows"></div>
+
+    <div class="source-note" id="sourceNote">Valyuta kurslari yuklanmoqda...</div>
+
+    <div class="keypad" id="keypad">
+      <button class="key" data-key="7">7</button>
+      <button class="key" data-key="8">8</button>
+      <button class="key" data-key="9">9</button>
+      <button class="key key-ac" data-key="AC">AC</button>
+      <button class="key" data-key="4">4</button>
+      <button class="key" data-key="5">5</button>
+      <button class="key" data-key="6">6</button>
+      <button class="key" data-key="1">1</button>
+      <button class="key" data-key="2">2</button>
+      <button class="key" data-key="3">3</button>
+      <button class="key key-back" data-key="BACK">⌫</button>
+      <button class="key key-zero" data-key="0">0</button>
+      <button class="key" data-key=",">,</button>
+    </div>
+  </div>
+
+  <!-- ============ TAB 2: TARIX ============ -->
+  <div class="tab-panel" id="tab-tarix">
+    <div class="rows-header">
+      <h2>Amallar tarixi</h2>
+    </div>
+    <div id="historyList"></div>
+  </div>
+
+  <!-- ============ TAB 3: KO'PROQ ============ -->
+  <div class="tab-panel" id="tab-koproq">
+
+    <div id="toolsHome">
+      <div class="rows-header">
+        <h2>Qo'shimcha vositalar</h2>
+      </div>
+      <div class="tools-grid" id="toolsGrid"></div>
+    </div>
+
+    <!-- Tool detail views injected here -->
+    <div id="toolViews"></div>
+  </div>
+
+  <!-- Bottom navigation -->
+  <div class="bottom-nav">
+    <button class="nav-btn active" data-tab="asosiy">
+      <span class="nav-icon">🏠</span>Asosiy
+    </button>
+    <button class="nav-btn" data-tab="tarix">
+      <span class="nav-icon">🕓</span>Tarix
+    </button>
+    <button class="nav-btn" data-tab="koproq">
+      <span class="nav-icon">🧩</span>Ko'proq
+    </button>
+  </div>
+
+</div>
+
+</div>
+<!-- /page-wrap -->
+
+<!-- Currency picker modal -->
+<div class="modal-overlay" id="pickerOverlay">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Valyutani tanlang</div>
+    <input type="text" class="modal-search" id="pickerSearch" placeholder="Qidirish: nomi yoki kodi (masalan EUR)">
+    <div class="modal-list" id="pickerList"></div>
+    <button class="modal-cancel" id="pickerCancel">Bekor qilish</button>
+  </div>
+</div>
+
+<script src="currencies.js"></script>
+<script src="units.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
