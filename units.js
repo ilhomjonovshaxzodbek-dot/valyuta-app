@@ -1,0 +1,93 @@
+// Chiziqli (koeffitsientga asoslangan) o'lchov birliklari — har bir toifada bitta baza birlik bor,
+// va har bir birlik shu bazaga nisbatan koeffitsient bilan berilgan.
+const UNIT_CATEGORIES = {
+  uzunlik: {
+    title: "Uzunlik",
+    icon: "📏",
+    base: "m",
+    units: {
+      mm: { label: "Millimetr (mm)", factor: 0.001 },
+      sm: { label: "Santimetr (sm)", factor: 0.01 },
+      m: { label: "Metr (m)", factor: 1 },
+      dyuym: { label: "Dyuym (inch)", factor: 0.0254 },
+      fut: { label: "Fut (ft)", factor: 0.3048 },
+      yard: { label: "Yard (yd)", factor: 0.9144 },
+    },
+  },
+  yol: {
+    title: "Yo'l o'lchamlari",
+    icon: "🛣️",
+    base: "km",
+    units: {
+      m: { label: "Metr (m)", factor: 0.001 },
+      km: { label: "Kilometr (km)", factor: 1 },
+      milya: { label: "Milya (mile)", factor: 1.60934 },
+      dengiz_mili: { label: "Dengiz mili", factor: 1.852 },
+    },
+  },
+  ogirlik: {
+    title: "Og'irlik",
+    icon: "⚖️",
+    base: "kg",
+    units: {
+      mg: { label: "Milligramm (mg)", factor: 0.000001 },
+      g: { label: "Gramm (g)", factor: 0.001 },
+      kg: { label: "Kilogramm (kg)", factor: 1 },
+      tonna: { label: "Tonna (t)", factor: 1000 },
+      funt: { label: "Funt (lb)", factor: 0.453592 },
+      untsiya: { label: "Untsiya (oz)", factor: 0.0283495 },
+    },
+  },
+  suyuqlik: {
+    title: "Suyuqlik o'lchamlari",
+    icon: "🧪",
+    base: "l",
+    units: {
+      ml: { label: "Millilitr (ml)", factor: 0.001 },
+      l: { label: "Litr (l)", factor: 1 },
+      stakan: { label: "Stakan (cup)", factor: 0.24 },
+      osh_qoshiq: { label: "Osh qoshiq", factor: 0.015 },
+      choy_qoshiq: { label: "Choy qoshiq", factor: 0.005 },
+      gallon_us: { label: "Gallon (AQSh)", factor: 3.78541 },
+      gallon_uk: { label: "Gallon (Angliya)", factor: 4.54609 },
+    },
+  },
+  vaqt: {
+    title: "Vaqt o'lchash",
+    icon: "⏱️",
+    base: "soat",
+    units: {
+      soniya: { label: "Soniya", factor: 1 / 3600 },
+      daqiqa: { label: "Daqiqa", factor: 1 / 60 },
+      soat: { label: "Soat", factor: 1 },
+      kun: { label: "Kun", factor: 24 },
+      hafta: { label: "Hafta", factor: 24 * 7 },
+      oy: { label: "Oy (30 kun)", factor: 24 * 30 },
+      yil: { label: "Yil (365 kun)", factor: 24 * 365 },
+    },
+  },
+  maydon: {
+    title: "Maydon",
+    icon: "🗺️",
+    base: "m2",
+    units: {
+      m2: { label: "Kvadrat metr (m²)", factor: 1 },
+      sotix: { label: "Sotix", factor: 100 },
+      gektar: { label: "Gektar (ga)", factor: 10000 },
+      km2: { label: "Kvadrat kilometr (km²)", factor: 1000000 },
+      akr: { label: "Akr", factor: 4046.86 },
+      fut2: { label: "Kvadrat fut (ft²)", factor: 0.092903 },
+    },
+  },
+  tezlik: {
+    title: "Tezlik",
+    icon: "🚀",
+    base: "kmh",
+    units: {
+      ms: { label: "Metr/soniya (m/s)", factor: 3.6 },
+      kmh: { label: "Kilometr/soat (km/soat)", factor: 1 },
+      mph: { label: "Milya/soat (mph)", factor: 1.60934 },
+      tugun: { label: "Tugun (knot)", factor: 1.852 },
+    },
+  },
+};
