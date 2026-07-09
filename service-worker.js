@@ -1,9 +1,10 @@
-const CACHE_NAME = "valyuta-app-v1";
+const CACHE_NAME = "valyuta-app-v2";
 const CORE_ASSETS = [
   "./",
   "./index.html",
   "./style.css",
   "./app.js",
+  "./auth.js",
   "./currencies.js",
   "./units.js",
   "./manifest.json",
@@ -27,22 +28,20 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
-// Faqat o'z saytimiz fayllarini keshlaymiz; tashqi API so'rovlarini (kurslar)
-// har doim tarmoqdan olamiz, chunki ular doim yangi bo'lishi kerak.
+// Saytimizning o'z fayllari uchun: avval TARMOQDAN yangisini olishga harakat qilamiz
+// (shunda yangilanishlar darhol ko'rinadi), faqat internet yo'q bo'lsa keshdan foydalanamiz.
+// Tashqi API so'rovlariga (valyuta kurslari) umuman tegmaymiz.
 self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return; // tashqi API - tegmaymiz
 
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) return cached;
-      return fetch(event.request)
-        .then((res) => {
-          const resClone = res.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, resClone));
-          return res;
-        })
-        .catch(() => cached);
-    })
+    fetch(event.request)
+      .then((res) => {
+        const resClone = res.clone();
+        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, resClone));
+        return res;
+      })
+      .catch(() => caches.match(event.request))
   );
 });
