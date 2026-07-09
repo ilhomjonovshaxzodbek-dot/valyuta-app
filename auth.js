@@ -75,6 +75,7 @@ function hasActiveSession() {
 function showApp() {
   document.getElementById("authScreen").style.display = "none";
   document.getElementById("pageWrap").style.display = "";
+  updateHeaderGreeting();
   if (!appStarted) {
     appStarted = true;
     window.startMainApp();
@@ -209,6 +210,111 @@ function handleLogout() {
   showAuth();
 }
 
+/* -------------------------- Avatar va sarlavha -------------------------- */
+
+function initialLetter(ism) {
+  return ism && ism.length ? ism.trim().charAt(0).toUpperCase() : "?";
+}
+
+function applyAvatar(el, account) {
+  if (account && account.avatar) {
+    el.style.backgroundImage = `url(${account.avatar})`;
+    el.textContent = "";
+  } else {
+    el.style.backgroundImage = "";
+    el.textContent = initialLetter(account ? account.ism : "");
+  }
+}
+
+function updateHeaderGreeting() {
+  const acc = getAccount();
+  if (!acc) return;
+  const greeting = `Salom, ${acc.ism}!`;
+  document.getElementById("brandTitleMobile").textContent = greeting;
+  document.getElementById("brandTitleSide").textContent = greeting;
+  applyAvatar(document.getElementById("brandMarkMobile"), acc);
+  applyAvatar(document.getElementById("brandMarkSide"), acc);
+}
+
+function resizeImageFile(file, maxDim) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error("O'qib bo'lmadi"));
+    reader.onload = () => {
+      const img = new Image();
+      img.onerror = () => reject(new Error("Rasm noto'g'ri"));
+      img.onload = () => {
+        let { width, height } = img;
+        if (width > height && width > maxDim) {
+          height = Math.round((height * maxDim) / width);
+          width = maxDim;
+        } else if (height > maxDim) {
+          width = Math.round((width * maxDim) / height);
+          height = maxDim;
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL("image/jpeg", 0.85));
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+/* -------------------------- Profil sahifasi -------------------------- */
+
+function renderProfileForm() {
+  const acc = getAccount();
+  if (!acc) return;
+  document.getElementById("profileIsmInput").value = acc.ism;
+  document.getElementById("profileFamiliyaInput").value = acc.familiya;
+  document.getElementById("profileLoginDisplay").value = acc.login;
+  applyAvatar(document.getElementById("profileAvatarPreview"), acc);
+  clearError("profileError");
+  document.getElementById("profileSuccess").classList.remove("visible");
+}
+
+async function handleAvatarChange(e) {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  try {
+    const dataUrl = await resizeImageFile(file, 256);
+    const acc = getAccount();
+    acc.avatar = dataUrl;
+    setAccount(acc);
+    applyAvatar(document.getElementById("profileAvatarPreview"), acc);
+    updateHeaderGreeting();
+  } catch (err) {
+    showError("profileError", "Rasmni yuklab bo'lmadi. Boshqa rasm tanlang.");
+  }
+}
+
+function handleProfileSave() {
+  clearError("profileError");
+  document.getElementById("profileSuccess").classList.remove("visible");
+
+  const acc = getAccount();
+  if (!acc) return;
+
+  const ism = document.getElementById("profileIsmInput").value.trim();
+  const familiya = document.getElementById("profileFamiliyaInput").value.trim();
+
+  if (!ism) return showError("profileError", "Ism kiritilishi shart.");
+  if (!familiya) return showError("profileError", "Familiya kiritilishi shart.");
+
+  acc.ism = ism;
+  acc.familiya = familiya;
+  setAccount(acc);
+  updateHeaderGreeting();
+
+  const success = document.getElementById("profileSuccess");
+  success.textContent = "Saqlandi!";
+  success.classList.add("visible");
+}
+
 /* -------------------------- Ishga tushirish -------------------------- */
 
 function initAuth() {
@@ -227,6 +333,10 @@ function initAuth() {
 
   document.getElementById("logoutBtn").addEventListener("click", handleLogout);
   document.getElementById("logoutBtnSide").addEventListener("click", handleLogout);
+
+  document.getElementById("profileAvatarInput").addEventListener("change", handleAvatarChange);
+  document.getElementById("profileSaveBtn").addEventListener("click", handleProfileSave);
+  window.onProfilTabOpen = renderProfileForm;
 
   if (getAccount() && hasActiveSession()) {
     showApp();
