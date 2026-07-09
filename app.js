@@ -65,6 +65,14 @@ function formatDisplayDate(dateStr) {
   return `${d}.${m}.${y}`;
 }
 
+// Internet sekin yoki server javob bermasa ilova cheksiz kutib qolmasligi uchun
+// har bir tarmoq so'roviga vaqt chegarasi qo'yamiz.
+function fetchWithTimeout(url, timeoutMs = 4000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  return fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timer));
+}
+
 /* -------------------------- Kurslarni yuklash -------------------------- */
 
 async function loadRates() {
@@ -79,7 +87,7 @@ async function loadRates() {
   let loaded = false;
   for (const url of endpoints) {
     try {
-      const res = await fetch(url);
+      const res = await fetchWithTimeout(url, 4000);
       if (!res.ok) continue;
       const data = await res.json();
       if (data && data.usd) {
@@ -94,9 +102,10 @@ async function loadRates() {
     }
   }
 
-  // CBU.uz rasmiy kursi bilan UZS ni aniqlashtirish (mavjud bo'lsa)
+  // CBU.uz rasmiy kursi bilan UZS ni aniqlashtirish (mavjud bo'lsa) — 3 soniyadan
+  // ko'p kutmaymiz, aks holda ilovaning ochilishi kechikib ketadi.
   try {
-    const cbuRes = await fetch("https://cbu.uz/uz/arkhiv-kursov-valyut/json/all/");
+    const cbuRes = await fetchWithTimeout("https://cbu.uz/uz/arkhiv-kursov-valyut/json/all/", 3000);
     if (cbuRes.ok) {
       const cbuData = await cbuRes.json();
       const usdEntry = Array.isArray(cbuData) ? cbuData.find((c) => c.Ccy === "USD") : null;
@@ -367,7 +376,7 @@ async function refreshHistoryRateChart() {
     }
     const results = await Promise.allSettled(
       days.map((d) =>
-        fetch(`https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@${d}/v1/currencies/usd.json`).then((r) =>
+        fetchWithTimeout(`https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@${d}/v1/currencies/usd.json`, 4000).then((r) =>
           r.ok ? r.json() : Promise.reject()
         )
       )
