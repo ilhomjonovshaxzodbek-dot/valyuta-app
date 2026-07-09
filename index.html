@@ -16,7 +16,67 @@
 <meta name="apple-mobile-web-app-title" content="Valyuta">
 </head>
 <body>
-<div class="page-wrap">
+
+<!-- ============ KIRISH / RO'YXATDAN O'TISH EKRANI ============ -->
+<div class="auth-screen" id="authScreen">
+  <div class="auth-card glass-card">
+    <div class="auth-brand">
+      <div class="brand-mark">💱</div>
+      <div class="title">Valyuta</div>
+    </div>
+
+    <!-- LOGIN VIEW -->
+    <div class="auth-view active" id="authLoginView">
+      <a href="#" class="auth-switch-link" id="showRegisterLink">Ro'yxatdan o'tish</a>
+
+      <form id="loginForm" autocomplete="off">
+        <div class="simple-field">
+          <label>Login</label>
+          <input type="text" id="loginLogin" placeholder="login">
+        </div>
+        <div class="simple-field">
+          <label>Parol</label>
+          <input type="password" id="loginPassword" placeholder="••••••••">
+        </div>
+        <div class="auth-error" id="loginError"></div>
+        <button type="button" class="auth-delete-btn" id="deleteProfileBtn">Profilni o'chirish</button>
+        <button type="submit" class="auth-submit-btn">Kirish</button>
+      </form>
+    </div>
+
+    <!-- REGISTER VIEW -->
+    <div class="auth-view" id="authRegisterView">
+      <a href="#" class="auth-switch-link" id="showLoginLink">Kirish</a>
+
+      <form id="registerForm" autocomplete="off">
+        <div class="simple-field">
+          <label>Ism</label>
+          <input type="text" id="regIsm" placeholder="Ismingiz">
+        </div>
+        <div class="simple-field">
+          <label>Familiya</label>
+          <input type="text" id="regFamiliya" placeholder="Familiyangiz">
+        </div>
+        <div class="simple-field">
+          <label>Login</label>
+          <input type="text" id="regLogin" placeholder="raqam bilan boshlanmasin">
+        </div>
+        <div class="simple-field">
+          <label>Parol</label>
+          <input type="password" id="regPassword" placeholder="kamida 8 ta belgi, harf+raqam">
+        </div>
+        <div class="simple-field">
+          <label>Parolni tasdiqlang</label>
+          <input type="password" id="regPassword2" placeholder="parolni qayta yozing">
+        </div>
+        <div class="auth-error" id="registerError"></div>
+        <button type="submit" class="auth-submit-btn">Ro'yxatdan o'tish</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="page-wrap" id="pageWrap" style="display:none;">
 
   <!-- Desktop sidebar (kompyuter uchun) -->
   <div class="sidebar-nav">
@@ -36,6 +96,9 @@
     <button class="sidebar-btn" data-tab="koproq">
       <span class="nav-icon">🧩</span> Ko'proq
     </button>
+    <button class="sidebar-btn" id="logoutBtnSide">
+      <span class="nav-icon">🚪</span> Chiqish
+    </button>
   </div>
 
 <div class="app-shell">
@@ -49,7 +112,10 @@
         <div class="subtitle" id="headerDate">Yuklanmoqda...</div>
       </div>
     </div>
-    <button class="header-icon-btn" id="editRowsBtn" title="Tahrirlash">✎</button>
+    <div style="display:flex; gap:8px;">
+      <button class="header-icon-btn" id="logoutBtn" title="Chiqish">🚪</button>
+      <button class="header-icon-btn" id="editRowsBtn" title="Tahrirlash">✎</button>
+    </div>
   </div>
 
   <!-- ============ TAB 1: ASOSIY ============ -->
@@ -134,5 +200,6 @@
 <script src="currencies.js"></script>
 <script src="units.js"></script>
 <script src="app.js"></script>
+<script src="auth.js"></script>
 </body>
 </html>
