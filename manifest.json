@@ -1,6 +1,6 @@
 {
-  "name": "Valyuta — kalkulyator va kurslar",
-  "short_name": "Valyuta",
+  "name": "CoinFlow — valyuta kalkulyatori",
+  "short_name": "CoinFlow",
   "description": "Real vaqtda valyuta kurslari, ko'p valyutali kalkulyator va o'lchov vositalari",
   "start_url": "./index.html",
   "scope": "./",
