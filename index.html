@@ -81,9 +81,9 @@
   <!-- Desktop sidebar (kompyuter uchun) -->
   <div class="sidebar-nav">
     <div class="sidebar-brand">
-      <div class="brand-mark">💱</div>
+      <div class="brand-mark" id="brandMarkSide">💱</div>
       <div class="brand-text">
-        <div class="title">Valyuta</div>
+        <div class="title" id="brandTitleSide">Valyuta</div>
         <div class="subtitle" id="headerDateSide">Yuklanmoqda...</div>
       </div>
     </div>
@@ -96,6 +96,9 @@
     <button class="sidebar-btn" data-tab="koproq">
       <span class="nav-icon">🧩</span> Ko'proq
     </button>
+    <button class="sidebar-btn" data-tab="profil">
+      <span class="nav-icon">👤</span> Profil
+    </button>
     <button class="sidebar-btn" id="logoutBtnSide">
       <span class="nav-icon">🚪</span> Chiqish
     </button>
@@ -106,9 +109,9 @@
   <!-- Header (mobil uchun) -->
   <div class="app-header">
     <div class="brand">
-      <div class="brand-mark">💱</div>
+      <div class="brand-mark" id="brandMarkMobile">💱</div>
       <div class="brand-text">
-        <div class="title">Valyuta</div>
+        <div class="title" id="brandTitleMobile">Valyuta</div>
         <div class="subtitle" id="headerDate">Yuklanmoqda...</div>
       </div>
     </div>
@@ -168,6 +171,38 @@
     <div id="toolViews"></div>
   </div>
 
+  <!-- ============ TAB 4: PROFIL ============ -->
+  <div class="tab-panel" id="tab-profil">
+    <div class="rows-header">
+      <h2>Profil</h2>
+    </div>
+
+    <div class="profile-card glass-card">
+      <div class="profile-avatar-wrap">
+        <div class="profile-avatar" id="profileAvatarPreview"></div>
+        <label class="profile-avatar-edit" for="profileAvatarInput">📷</label>
+        <input type="file" id="profileAvatarInput" accept="image/*" style="display:none;">
+      </div>
+
+      <div class="simple-field">
+        <label>Ism</label>
+        <input type="text" id="profileIsmInput">
+      </div>
+      <div class="simple-field">
+        <label>Familiya</label>
+        <input type="text" id="profileFamiliyaInput">
+      </div>
+      <div class="simple-field">
+        <label>Login</label>
+        <input type="text" id="profileLoginDisplay" disabled>
+      </div>
+
+      <div class="auth-error" id="profileError"></div>
+      <div class="auth-success" id="profileSuccess"></div>
+      <button class="auth-submit-btn" id="profileSaveBtn">Saqlash</button>
+    </div>
+  </div>
+
   <!-- Bottom navigation -->
   <div class="bottom-nav">
     <button class="nav-btn active" data-tab="asosiy">
@@ -178,6 +213,9 @@
     </button>
     <button class="nav-btn" data-tab="koproq">
       <span class="nav-icon">🧩</span>Ko'proq
+    </button>
+    <button class="nav-btn" data-tab="profil">
+      <span class="nav-icon">👤</span>Profil
     </button>
   </div>
 
